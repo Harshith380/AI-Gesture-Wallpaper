@@ -1,27 +1,27 @@
 # AI Gesture Wallpaper Controller
 
-An AI-powered Windows desktop application that allows users to control and change wallpapers using real-time hand gestures.
+An AI-powered Windows desktop application that uses real-time hand gesture recognition to control wallpapers through natural hand movements.
 
-The system uses computer vision and hand landmark detection to recognize predefined hand gestures and map them to wallpaper control actions.
+## 📌 Project Overview
 
----
+AI Gesture Wallpaper Controller combines computer vision and desktop automation to provide a touch-free wallpaper management system.
 
-## 🚀 Features
+The application detects hand gestures through a webcam using MediaPipe and OpenCV and maps them to wallpaper actions such as changing wallpapers, switching categories, activating controls, and pausing the system.
+
+## ✨ Features
 
 - Real-time hand gesture recognition
-- AI-based hand landmark detection using MediaPipe
-- Automatic wallpaper switching
+- Touch-free Windows wallpaper control
+- Gesture stabilization for reliable detection
 - Multiple wallpaper categories
-- Gesture-based category navigation
-- Gesture stabilization to reduce accidental actions
+- Next/previous wallpaper navigation
+- Next/previous category navigation
+- Activate and pause controls
 - Professional real-time dashboard
-- Gesture stability percentage
+- Gesture stability indicator
 - Recent action history
-- Windows desktop wallpaper integration
-- Webcam-based interaction
-- Responsive gesture control
-
----
+- Hand landmark visualization
+- Modular project architecture
 
 ## 🖐️ Gesture Controls
 
@@ -31,43 +31,60 @@ The system uses computer vision and hand landmark detection to recognize predefi
 | Fist | Pause controls |
 | One Finger | Next wallpaper |
 | Two Fingers | Previous wallpaper |
-| Thumbs Up | Next wallpaper category |
-| Thumbs Down | Previous wallpaper category |
+| Thumbs Up | Next category |
+| Thumbs Down | Previous category |
 
----
+## 🖥️ Application Preview
 
-## 🖥️ Dashboard
+The application provides a real-time dashboard displaying the detected gesture, gesture stability, current wallpaper, wallpaper category, system status, and recent actions.
 
-The application provides a real-time dashboard displaying:
+> Add your dashboard screenshot to `screenshots/dashboard.png` and uncomment the line below.
 
-- Current detected gesture
-- Gesture stability
-- Controller status
-- Current wallpaper category
-- Current wallpaper
-- Gesture mappings
-- Recent actions
-- Session running time
+<!--
+![AI Gesture Wallpaper Dashboard](screenshots/dashboard.png)
+-->
 
----
+## 🧠 Technologies Used
 
-## 🧠 How It Works
+- Python
+- MediaPipe
+- OpenCV
+- NumPy
+- Windows API
+- Computer Vision
+- Hand Landmark Detection
 
-The application follows a computer vision pipeline:
+## 🏗️ Project Structure
 
 ```text
-Webcam
-   ↓
-OpenCV Frame Capture
-   ↓
-MediaPipe Hand Landmark Detection
-   ↓
-Hand Landmark Analysis
-   ↓
-Gesture Classification
-   ↓
-Gesture Stabilization
-   ↓
-Wallpaper Controller
-   ↓
-Windows Wallpaper
+AI-Gesture-Wallpaper/
+│
+├── Wallpapers/
+│   ├── Anime4K/
+│   ├── Avengers4K/
+│   └── Cars4K/
+│
+├── gestures/
+│   └── gesture_detector.py
+│
+├── models/
+│   └── hand_landmarker.task
+│
+├── ui/
+│   ├── __init__.py
+│   └── dashboard.py
+│
+├── src/
+│   └── hand_detection_test.py
+│
+├── main.py
+├── gesture_detection.py
+├── wallpaper_controller.py
+│
+├── test_gestures.py
+├── test_hand_tracking.py
+├── test_wallpaper.py
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
