@@ -42,6 +42,7 @@ class Dashboard:
     # ---------------------------------------------------------
     # ADD ACTION TO HISTORY
     # ---------------------------------------------------------
+
     def add_action(self, action, description=None):
 
         timestamp = time.strftime("%H:%M:%S")
@@ -58,7 +59,7 @@ class Dashboard:
 
         # Keep only latest 6 actions
         self.actions = self.actions[:6]
-       
+
     # ---------------------------------------------------------
     # DRAW TEXT
     # ---------------------------------------------------------
@@ -152,6 +153,7 @@ class Dashboard:
     # ---------------------------------------------------------
     # DRAW DASHBOARD
     # ---------------------------------------------------------
+
     def draw(
         self,
         frame,
@@ -178,10 +180,9 @@ class Dashboard:
             self.wallpaper = wallpaper
 
         height, width = frame.shape[:2]
-    
 
         # -----------------------------------------------------
-        # DARK OVERLAY / DASHBOARD BACKGROUND
+        # DARK OVERLAY
         # -----------------------------------------------------
 
         overlay = frame.copy()
@@ -223,7 +224,6 @@ class Dashboard:
             1
         )
 
-        # Status indicator
         status_text = "ACTIVE" if self.active else "PAUSED"
 
         cv2.circle(
@@ -242,7 +242,6 @@ class Dashboard:
             1
         )
 
-        # Header separator
         cv2.line(
             frame,
             (30, 85),
@@ -252,14 +251,20 @@ class Dashboard:
         )
 
         # -----------------------------------------------------
-        # LEFT PANEL
+        # MAIN PANELS
         # -----------------------------------------------------
 
         left_x = 30
         left_y = 110
+
         left_w = int(width * 0.47)
+
         panel_h = height - 175
 
+        right_x = left_x + left_w + 20
+        right_w = width - right_x - 30
+
+        # Left panel
         self.draw_box(
             frame,
             left_x,
@@ -267,6 +272,19 @@ class Dashboard:
             left_x + left_w,
             left_y + panel_h
         )
+
+        # Right panel
+        self.draw_box(
+            frame,
+            right_x,
+            left_y,
+            right_x + right_w,
+            left_y + panel_h
+        )
+
+        # -----------------------------------------------------
+        # LEFT PANEL - GESTURE CONTROL
+        # -----------------------------------------------------
 
         self.draw_text(
             frame,
@@ -276,7 +294,6 @@ class Dashboard:
             2
         )
 
-        # Current gesture
         self.draw_text(
             frame,
             "Current Gesture",
@@ -293,7 +310,6 @@ class Dashboard:
             2
         )
 
-        # Stability
         self.draw_text(
             frame,
             f"Gesture Stability: {self.stability}%",
@@ -314,37 +330,37 @@ class Dashboard:
         # WALLPAPER INFORMATION
         # -----------------------------------------------------
 
-        info_y = left_y + 220
+        info_y = left_y + 205
 
         self.draw_text(
             frame,
             "WALLPAPER",
             (left_x + 20, info_y),
-            0.6,
+            0.58,
             2
         )
 
         self.draw_text(
             frame,
             "Category:",
-            (left_x + 20, info_y + 40),
-            0.5,
+            (left_x + 20, info_y + 35),
+            0.45,
             1
         )
 
         self.draw_text(
             frame,
             self.category,
-            (left_x + 120, info_y + 40),
-            0.5,
+            (left_x + 115, info_y + 35),
+            0.45,
             1
         )
 
         self.draw_text(
             frame,
             "Wallpaper:",
-            (left_x + 20, info_y + 75),
-            0.5,
+            (left_x + 20, info_y + 65),
+            0.45,
             1
         )
 
@@ -354,71 +370,60 @@ class Dashboard:
 
         self.draw_text(
             frame,
-            wallpaper_name[:30],
-            (left_x + 120, info_y + 75),
-            0.48,
+            wallpaper_name[:22],
+            (left_x + 115, info_y + 65),
+            0.42,
             1
         )
 
         # -----------------------------------------------------
         # GESTURE MAPPINGS
         # -----------------------------------------------------
+                
+       
 
-        controls_y = info_y + 125
+        controls_y = info_y + 100
 
         self.draw_text(
             frame,
             "GESTURE MAPPINGS",
             (left_x + 20, controls_y),
-            0.6,
+            0.50,
             2
         )
 
         controls = [
-            ("OPEN PALM", "Activate controls"),
-            ("FIST", "Pause controls"),
-            ("ONE FINGER", "Next wallpaper"),
-            ("TWO FINGERS", "Previous wallpaper"),
+            ("OPEN PALM", "Activate"),
+            ("FIST", "Pause"),
+            ("ONE FINGER", "Next"),
+            ("TWO FINGERS", "Previous"),
             ("THUMBS UP", "Next category"),
             ("THUMBS DOWN", "Previous category"),
         ]
 
+        column_width = int((left_w - 50) / 2)
+
         row_y = controls_y + 32
 
-        for gesture, action in controls:
+        for index, (gesture_name, action) in enumerate(controls):
+
+            column = index % 2
+            row = index // 2
+
+            x = left_x + 20 + (column * column_width)
+            y = row_y + (row * 48)
 
             self.draw_text(
                 frame,
-                gesture,
-                (left_x + 20, row_y),
-                0.42,
+                f"{gesture_name} -> {action}",
+                (x, y),
+                0.45,
                 1
             )
 
-            self.draw_text(
-                frame,
-                action,
-                (left_x + 155, row_y),
-                0.42,
-                1
-            )
-
-            row_y += 25
-
         # -----------------------------------------------------
-        # RIGHT PANEL
+        # RIGHT PANEL - RECENT ACTIONS
         # -----------------------------------------------------
-
-        right_x = left_x + left_w + 20
-        right_w = width - right_x - 30
-
-        self.draw_box(
-            frame,
-            right_x,
-            left_y,
-            right_x + right_w,
-            left_y + panel_h
-        )
 
         self.draw_text(
             frame,
@@ -427,10 +432,6 @@ class Dashboard:
             0.65,
             2
         )
-
-        # -----------------------------------------------------
-        # ACTION HISTORY
-        # -----------------------------------------------------
 
         history_y = left_y + 75
 
@@ -450,25 +451,25 @@ class Dashboard:
 
                 self.draw_text(
                     frame,
-                    action[:45],
+                    action[:42],
                     (right_x + 20, history_y),
-                    0.43,
+                    0.40,
                     1
                 )
 
-                history_y += 30
+                history_y += 27
 
         # -----------------------------------------------------
-        # SESSION INFORMATION
+        # SESSION
         # -----------------------------------------------------
 
-        session_y = left_y + panel_h - 120
+        session_y = left_y + panel_h - 95
 
         self.draw_text(
             frame,
             "SESSION",
             (right_x + 20, session_y),
-            0.6,
+            0.58,
             2
         )
 
@@ -482,16 +483,16 @@ class Dashboard:
         self.draw_text(
             frame,
             f"Running Time: {minutes:02d}:{seconds:02d}",
-            (right_x + 20, session_y + 35),
-            0.48,
+            (right_x + 20, session_y + 30),
+            0.45,
             1
         )
 
         self.draw_text(
             frame,
             "Press Q to quit",
-            (right_x + 20, session_y + 65),
-            0.48,
+            (right_x + 20, session_y + 55),
+            0.45,
             1
         )
 
@@ -502,16 +503,16 @@ class Dashboard:
         self.draw_text(
             frame,
             "AI Gesture Wallpaper Controller",
-            (30, height - 25),
-            0.42,
+            (30, height - 15),
+            0.36,
             1
         )
 
         self.draw_text(
             frame,
             "MediaPipe + OpenCV",
-            (width - 180, height - 25),
-            0.42,
+            (width - 165, height - 15),
+            0.36,
             1
         )
 

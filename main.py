@@ -539,14 +539,20 @@ with HandLandmarker.create_from_options(
         # DASHBOARD
         # ====================================================
 
+        frame = cv2.resize(
+            frame,
+            (1280, 720),
+            interpolation=cv2.INTER_LINEAR
+        )
+
         frame = dashboard.draw(
-    frame,
-    current_gesture,
-    stability_percent,
-    controls_active,
-    category,
-    wallpaper_path
-)
+            frame,
+            current_gesture,
+            stability_percent,
+            controls_active,
+            category,
+            wallpaper_path
+        )
 
 
         # ====================================================
