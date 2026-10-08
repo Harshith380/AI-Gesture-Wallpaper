@@ -38,11 +38,8 @@ The application detects hand gestures through a webcam using MediaPipe and OpenC
 
 The application provides a real-time dashboard displaying the detected gesture, gesture stability, current wallpaper, wallpaper category, system status, and recent actions.
 
-> Add your dashboard screenshot to `screenshots/dashboard.png` and uncomment the line below.
-
-<!--
 ![AI Gesture Wallpaper Dashboard](screenshots/dashboard.png)
--->
+
 
 ## 🧠 Technologies Used
 
